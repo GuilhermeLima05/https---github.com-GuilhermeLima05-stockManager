@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo or "StockFlow" }}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fonte -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ====== BASE ====== */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #fdf2f2, #f8fafc);
+        }
+
+        /* ====== NAVBAR ====== */
+        .navbar {
+            background: linear-gradient(90deg, #7f1d1d, #991b1b);
+        }
+
+        .user-chip {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        /* ====== CARD CONTEÚDO ====== */
+        .content-card {
+            background: #ffffff;
+            border-radius: 18px;
+            border-top: 6px solid #991b1b;
+            box-shadow: 0 20px 45px rgba(127, 29, 29, 0.18);
+        }
+
+        /* ====== BOTÃO VERDE → VERMELHO ====== */
+        .btn-dynamic {
+            background-color: #16a34a; /* verde */
+            color: #ffffff;
+            border: none;
+
+            transform: scale(1.0);
+            transition:
+                background-color 0.5s ease,
+                transform 0.5s ease;
+        }
+
+        .btn-dynamic:hover {
+            background-color: #991b1b; /* vermelho rubro */
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* ====== BOTÃO OUTLINE ====== */
+        .btn-dynamic-outline {
+            background-color: transparent;
+            border: 2px solid #16a34a;
+            color: #16a34a;
+
+            transform: scale(1.0);
+            transition:
+                background-color 0.5s ease,
+                border-color 0.5s ease,
+                color 0.5s ease,
+                transform 0.5s ease;
+        }
+
+        .btn-dynamic-outline:hover {
+            background-color: #991b1b;
+            border-color: #991b1b;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* ====== FOOTER ====== */
+        footer {
+            background-color: #450a0a;
+            color: #fecaca;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow">
+        <div class="container">
+            <a class="navbar-brand fw-semibold fs-4" href="{{ url_for('lista_produtos') }}">
+                🔴 StockFlow
+            </a>
+
+            <div class="d-flex align-items-center gap-3">
+                {% if current_user.is_authenticated %}
+                    <span class="user-chip text-white">
+                        👋 {{ current_user.nome }}
+                    </span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-dynamic-outline btn-sm">
+                        Sair
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-dynamic-outline btn-sm">
+                        Entrar
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO -->
+    <main class="flex-grow-1">
+        <div class="container my-5">
+            <div class="content-card p-4 p-md-5">
+
+                <!-- EXEMPLO DE BOTÕES -->
+                <h4 class="mb-4">Ações</h4>
+
+                <div class="d-flex gap-3 flex-wrap">
+                    <button class="btn btn-dynamic">
+                        Salvar
+                    </button>
+
+                    <button class="btn btn-dynamic-outline">
+                        Excluir
+                    </button>
+                </div>
+
+                <hr class="my-4">
+
+                {% block conteudo %}{% endblock %}
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-3 mt-auto">
+        <small>
+            © {{ 2026 }} <strong>StockFlow</strong> · Gestão de estoque rubra 🔴
+        </small>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
